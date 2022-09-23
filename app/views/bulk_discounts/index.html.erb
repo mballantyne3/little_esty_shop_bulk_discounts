@@ -1,1 +1,10 @@
-<h1>My Bulk Discounts</h1>
+<h2>Bulk Discounts For: <%= @merchant.name %></h2>
+
+<p class ='ml-auto col-sm-5'>My Bulk Discounts</p>
+<ul>
+  <%  @merchant.bulk_discounts.each do |discount| %>
+  <section id="discount-<%= discount.id %>">
+    <%= "#{discount.percent_discount}% off of #{discount.qty_threshold} or more items"  %>
+  </section>
+  <% end %>
+</ul>

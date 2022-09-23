@@ -5,6 +5,7 @@
       <li><%= link_to 'Dashboard', merchant_dashboard_index_path, class: 'link_1', style: 'pull-right' %>
       <li><%= link_to 'Items', merchant_items_path, class: 'link_1', style: 'pull-right' %>
       <li><%= link_to 'Invoices', merchant_invoices_path, class: 'link_1', style: 'pull-right' %>
+      <li><%= link_to "My Bulk Discounts", merchant_bulk_discounts_path, class: 'link_1', style: 'pull-right' %></li>
     </ul>
   </nav>
 </div>
@@ -12,7 +13,6 @@
 <body>
   <div class="row">
     <p class='mr-auto col-sm-5'>Favorite Customers</p>
-    <p class='ml-auto col-sm-5'>Items Ready to Ship</p>
   </div>
  
   <ul class='mr-auto col-sm-4'>
@@ -24,6 +24,7 @@
     <% end %>
   </ul>
 
+  <p class ='ml-auto col-sm-5'>Items Ready to Ship</p>
   <ul class='ml-auto col-sm-4'>
     <section id = "items_ready_to_ship" >
       <p><% @merchant.ordered_items_to_ship.each do |item| %>
@@ -33,6 +34,4 @@
       </p>
     </section>
   </ul>
-
-  <p><%= link_to "My Bulk Discounts", merchant_bulk_discounts_path, class: 'link_1', style: 'pull-right' %></p>
 </body>
