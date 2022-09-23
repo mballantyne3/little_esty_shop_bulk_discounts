@@ -1,4 +1,4 @@
-class BulkDiscounts < ApplicationController
+class BulkDiscountsController < ApplicationController
   def index
 
   end
