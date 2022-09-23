@@ -50,5 +50,17 @@ RSpec.describe 'merchant bulk discounts index page' do
     within("#discount-#{@bd_1.id}") do
       expect(page).to have_content("#{@bd_1.percent_discount}% off of #{@bd_1.qty_threshold} or more items")
     end
+    within("#discount-#{@bd_2.id}") do
+      expect(page).to have_content("#{@bd_2.percent_discount}% off of #{@bd_2.qty_threshold} or more items")
+    end
+  end
+
+  it 'has a link to each bulk discounts show page' do
+    within("#discount-#{@bd_1.id}") do
+      expect(page).to have_link('This Discounts Page')
+      click_link('This Discounts Page')
+
+      expect(current_path).to eq("/merchant/#{@merchant1.id}/bulk_discounts/#{@bd_1.id}")
+    end
   end
 end

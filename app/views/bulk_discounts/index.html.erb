@@ -4,7 +4,8 @@
 <ul>
   <%  @merchant.bulk_discounts.each do |discount| %>
   <section id="discount-<%= discount.id %>">
-    <%= "#{discount.percent_discount}% off of #{discount.qty_threshold} or more items"  %>
+    <li><%= "#{discount.percent_discount}% off of #{discount.qty_threshold} or more items"  %></li>
+    <p><%= link_to "This Discounts Page", "/merchant/#{@merchant.id}/bulk_discounts/#{discount.id}" %></p>
   </section>
   <% end %>
 </ul>
