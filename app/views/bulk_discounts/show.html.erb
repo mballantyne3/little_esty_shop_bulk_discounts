@@ -4,4 +4,5 @@
   <p class='col-12'>Percent Discount: <%= @bulk_discount.percent_discount %></p>
   <p class='col-12'>Item Threshold: <%= @bulk_discount.qty_threshold %></p>
 </div>
+<%= button_to "Edit This Discount", "/merchant/#{@merchant.id}/bulk_discounts/#{@bulk_discount.id}/edit", method: :get %>
 </body>
