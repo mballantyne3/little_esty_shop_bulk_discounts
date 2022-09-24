@@ -63,4 +63,11 @@ RSpec.describe 'merchant bulk discounts index page' do
       expect(current_path).to eq("/merchant/#{@merchant1.id}/bulk_discounts/#{@bd_1.id}")
     end
   end
+
+  it 'has a link to create a new discount which routes to a form page' do
+    expect(page).to have_link('Create New Discount')
+    click_link('Create New Discount')
+
+    expect(current_path).to eq("/merchant/#{@merchant1.id}/bulk_discounts/new")
+  end
 end
