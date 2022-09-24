@@ -49,4 +49,14 @@ RSpec.describe 'bulk discount edit form' do
     expect(page).to have_field(:percent_discount, with: @bd_1.percent_discount)
     expect(page).to have_field(:qty_threshold, with: @bd_1.qty_threshold)
   end
+
+  it 'redirects to the bulk discounts show page after filling out and submitting the form' do
+    fill_in("percent_discount", with: 15)
+    fill_in("qty_threshold", with: 30)
+    click_button("Update")
+
+    expect(current_path).to eq("/merchant/#{@merchant1.id}/bulk_discounts/#{@bd_1.id}")
+    expect(page).to have_content("Percent Discount: 15")
+    expect(page).to have_content("Item Threshold: 30")
+  end
 end
