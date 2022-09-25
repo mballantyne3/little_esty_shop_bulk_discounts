@@ -114,17 +114,18 @@ RSpec.describe 'merchant invoices show' do
       @item_1 = Item.create!(name: "Shampoo", description: "This washes your hair", unit_price: 10, merchant_id: @merchant1.id, status: 1)
       @item_2 = Item.create!(name: "Conditioner", description: "This makes your hair shiny", unit_price: 8, merchant_id: @merchant1.id)
 
-      @ii_1 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_1.id, quantity: 10, unit_price: 10, status: 2)
-      @ii_2 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_2.id, quantity: 5, unit_price: 10, status: 2)
+      @ii_1 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_1.id, quantity: 10, unit_price: 1000, status: 2)
+      @ii_2 = InvoiceItem.create!(invoice_id: @invoice_1.id, item_id: @item_2.id, quantity: 5, unit_price: 1000, status: 2)
 
       @bd_1 = @merchant1.bulk_discounts.create!(qty_threshold: 10, percent_discount: 20)
       @bd_2 = @merchant1.bulk_discounts.create!(qty_threshold: 15, percent_discount: 10)
     end
-    xit "shows the total discounted revenue from an invoice which includes bulk discounts" do
+
+    it "shows the total discounted revenue from an invoice which includes bulk discounts" do
       visit merchant_invoice_path(@merchant1, @invoice_1)
 
       within("#discountedRevenue") do
-        expect(page).to have_content("Discounted Revenue: $135")
+        expect(page).to have_content("Discounted Revenue: $130.00")
       end
     end
   end
