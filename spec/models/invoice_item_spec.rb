@@ -45,6 +45,7 @@ RSpec.describe InvoiceItem, type: :model do
     it 'applied_discount' do
       @ii_5 = InvoiceItem.create!(invoice_id: @i3.id, item_id: @item_2.id, quantity: 15, unit_price: 5, status: 1)
       expect(@ii_5.applied_discount).to eq(@bd_2)
+      expect(@ii_5.applied_discount).to_not eq(@bd_1)
     end
   end
 end

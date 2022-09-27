@@ -3,59 +3,60 @@
     <p class="navbar-text"><%= @merchant.name %></p>
     <ul class="nav navbar-nav">
       <li><%= link_to 'Dashboard', merchant_dashboard_index_path, style: 'pull-right' %>
-      <%= link_to 'My Items', merchant_items_path(@merchant), style: 'pull-right' %>
-      <%= link_to 'My Invoices', merchant_invoices_path(@merchant), style: 'pull-right' %></li>
+        <%= link_to 'My Items', merchant_items_path(@merchant), style: 'pull-right' %>
+        <%= link_to 'My Invoices', merchant_invoices_path(@merchant), style: 'pull-right' %></li>
     </ul>
   </nav>
 </div>
 
 <body>
-  <div class="row">
-    <p class='col-12'>Invoice #<%= @invoice.id %></p>
-  </div>
+<div class="row">
+  <p class='col-12'>Invoice #<%= @invoice.id %></p>
+</div>
 
-  <div id="current-invoice-status">
-    <strong>Status: </strong><%= @invoice.status %>
-  </div>
-  <br>
+<div id="current-invoice-status">
+  <strong>Status: </strong><%= @invoice.status %>
+</div>
+<br>
 
-  <p> Created on: <%= @invoice.created_at.strftime("%A, %B %-d, %Y") %></p>
-  <p>Total Revenue: <%= @invoice.total_revenue %></p>
-  <div id="discountedRevenue">
-    <p>Discounted Revenue: <%= number_to_currency(@invoice.discounted_revenue.to_f/100) %></p>
-  </div>
+<p> Created on: <%= @invoice.created_at.strftime("%A, %B %-d, %Y") %></p>
+<p>Total Revenue: <%= @invoice.total_revenue %></p>
+<div id="discountedRevenue">
+  <p>Discounted Revenue: <%= number_to_currency(@invoice.discounted_revenue.to_f / 100) %></p>
+</div>
 
-  <h4>Customer:</h4>
-    <%= @customer.first_name %> <%= @customer.last_name %><br>
-  <br>
-  <br>
-  <h4>Items on this Invoice:</h4>
-  <table class="table">
-    <thead>
+<h4>Customer:</h4>
+<%= @customer.first_name %> <%= @customer.last_name %><br>
+<br>
+<br>
+<h4>Items on this Invoice:</h4>
+<table class="table">
+  <thead>
+  <tr class="tr">
+    <th class="th1">Item Name</th>
+    <th class="th1">Quantity</th>
+    <th class="th1">Unit Price</th>
+    <th class="th1">Status</th>
+  </tr>
+  </thead>
+
+  <tbody>
+  <% @invoice.invoice_items.each do |i| %>
+    <section id="the-status-<%= i.id %>">
       <tr class="tr">
-        <th class="th1">Item Name</th>
-        <th class="th1">Quantity</th>
-        <th class="th1">Unit Price</th>
-        <th class="th1">Status</th>
+        <td style="text-align:center"><%= i.item.name %></td>
+        <td style="text-align:center"><%= i.quantity %></td>
+        <td style="text-align:center">$<%= i.unit_price %></td>
+        <td style="text-align:center"><%= form_with model: @invoice, url: merchant_invoice_path(@merchant, @invoice), method: :patch, local: true do |f| %>
+            <%= f.select :status, Invoice.statuses.keys, selected: "#{@invoice.status}" %>
+            <%= f.submit 'Update Invoice' %>
+            <%= link_to "#{i.item.name} Discount", merchant_bulk_discount_path(@merchant, i.applied_discount) if i.applied_discount.present? %>
+          <% end %>
+        </td>
+        </br >
       </tr>
-    </thead>
-
-    <tbody>
-      <% @invoice.invoice_items.each do |i| %>
-        <section id="the-status-<%= i.id %>">
-          <tr class="tr">
-            <td style="text-align:center"><%= i.item.name %></td>
-            <td style="text-align:center"><%= i.quantity %></td>
-            <td style="text-align:center">$<%= i.unit_price %></td>
-            <td style="text-align:center"><%= form_with model: @invoice, url: merchant_invoice_path(@merchant, @invoice), method: :patch, local: true do |f| %>
-                                            <%= f.select :status, Invoice.statuses.keys, selected: "#{@invoice.status}" %>
-                                            <%= f.submit 'Update Invoice' %>
-                                          <% end %></td><br/>
-          </tr>
-          <%= link_to i.item.name, merchant_bulk_discount_path(@merchant, ) %>
-        </section>
-      <% end %>
-    </tbody>
-  </table>
-
+    </section>
+  <% end %> %>
+  </tbody>
+</table>
 </body>

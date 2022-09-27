@@ -132,8 +132,8 @@ RSpec.describe 'merchant invoices show' do
     it "has a link to the show page for the bulk discount that was applied to the invoice" do
       visit merchant_invoice_path(@merchant1, @invoice_1)
       within("#the-status-#{@ii_1.id}") do
-        expect(page).to have_link(@item_1.name)
-        click_link(@item_1.name)
+        expect(page).to have_link("#{@item_1.name} Discount")
+        click_link("#{@item_1.name} Discount")
         expect(current_path).to eq(merchant_bulk_discount_path(@merchant1, @bd_1))
       end
     end
