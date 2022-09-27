@@ -13,9 +13,16 @@ describe 'Admin Invoices Show Page' do
     @item_1 = Item.create!(name: 'test', description: 'lalala', unit_price: 6, merchant_id: @m1.id)
     @item_2 = Item.create!(name: 'rest', description: 'dont test me', unit_price: 12, merchant_id: @m1.id)
 
-    @ii_1 = InvoiceItem.create!(invoice_id: @i1.id, item_id: @item_1.id, quantity: 12, unit_price: 2, status: 0)
-    @ii_2 = InvoiceItem.create!(invoice_id: @i1.id, item_id: @item_2.id, quantity: 6, unit_price: 1, status: 1)
-    @ii_3 = InvoiceItem.create!(invoice_id: @i2.id, item_id: @item_2.id, quantity: 87, unit_price: 12, status: 2)
+    @ii_1 = InvoiceItem.create!(invoice_id: @i1.id, item_id: @item_1.id, quantity: 12, unit_price: 200, status: 0)
+    @ii_2 = InvoiceItem.create!(invoice_id: @i1.id, item_id: @item_2.id, quantity: 6, unit_price: 150, status: 1)
+    @ii_3 = InvoiceItem.create!(invoice_id: @i2.id, item_id: @item_2.id, quantity: 87, unit_price: 120, status: 2)
+
+    @bd_1 = @m1.bulk_discounts.create!(qty_threshold: 10, percent_discount: 15)
+    @bd_2 = @m1.bulk_discounts.create!(qty_threshold: 15, percent_discount: 20)
+
+    # Discounted Revenue Calculations: 12 * 200 = 2400; 2400 - (2400 * 0.15) = 2040
+    # 6 * 150 = 900; no discount applied
+    # 900 + 2040 = $2940 total revenue after discounts for @i1
 
     visit admin_invoice_path(@i1)
   end
@@ -72,7 +79,7 @@ describe 'Admin Invoices Show Page' do
 
   describe 'Discounted Revenue for Admin Invoice Show Page' do
     it 'shows the total discounted revenue from this invoice' do
-
+        expect(page).to have_content("Discounted Revenue: $29.40")
     end
   end
 end
